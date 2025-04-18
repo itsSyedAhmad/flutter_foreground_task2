@@ -12,6 +12,7 @@ import com.pravera.flutter_foreground_task.models.ForegroundTaskData
 import com.pravera.flutter_foreground_task.models.ForegroundTaskOptions
 import com.pravera.flutter_foreground_task.models.NotificationContent
 import com.pravera.flutter_foreground_task.models.NotificationOptions
+import android.util.Log
 
 /**
  * A class that provides foreground service control and management functions.
@@ -53,12 +54,17 @@ class ForegroundServiceManager {
 		if (!isRunningService()) {
 			throw ServiceNotStartedException()
 		}
+		//
 
 		val nIntent = Intent(context, ForegroundService::class.java)
 		val argsMap = arguments as? Map<*, *>
+
+		
 		ForegroundServiceStatus.setData(context, ForegroundServiceAction.API_UPDATE)
 		ForegroundTaskOptions.updateData(context, argsMap)
 		ForegroundTaskData.updateData(context, argsMap)
+		val a=argsMap
+          // Log.d("args is", "args  Value of myVariable: $a")
 		NotificationContent.updateData(context, argsMap)
 		ContextCompat.startForegroundService(context, nIntent)
 	}

@@ -63,6 +63,7 @@ class ServiceDummyData {
       foregroundTaskOptions: foregroundTaskOptions,
       notificationContentTitle: notificationTitle,
       notificationContentText: notificationText,
+      
       notificationIcon: notificationIcon,
       notificationButtons: notificationButtons,
       callback: testCallback,
@@ -76,6 +77,7 @@ class ServiceDummyData {
       notificationContentText: notificationText,
       notificationIcon: notificationIcon,
       notificationButtons: notificationButtons,
+      smalliconText: "",
       callback: testCallback,
     ).toJson(platform);
   }

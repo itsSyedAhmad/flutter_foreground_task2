@@ -159,6 +159,7 @@ class FlutterForegroundTask {
     ForegroundTaskOptions? foregroundTaskOptions,
     String? notificationTitle,
     String? notificationText,
+    String? smalliconText,
     NotificationIcon? notificationIcon,
     List<NotificationButton>? notificationButtons,
     String? notificationInitialRoute,
@@ -168,15 +169,18 @@ class FlutterForegroundTask {
       if (!(await isRunningService)) {
         throw ServiceNotStartedException();
       }
+      //print("cc1 $smalliconText");
 
       await _platform.updateService(
         foregroundTaskOptions: foregroundTaskOptions,
         notificationText: notificationText,
+        smalliconText: smalliconText,
         notificationTitle: notificationTitle,
         notificationIcon: notificationIcon,
         notificationButtons: notificationButtons,
         notificationInitialRoute: notificationInitialRoute,
         callback: callback,
+
       );
 
       return const ServiceRequestSuccess();

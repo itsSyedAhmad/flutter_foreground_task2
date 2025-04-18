@@ -8,7 +8,7 @@ package com.pravera.flutter_foreground_task
  */
 object PreferencesKey {
     private const val prefix = "com.pravera.flutter_foreground_task.prefs."
-
+//
     // permissions
     const val NOTIFICATION_PERMISSION_STATUS_PREFS = prefix + "NOTIFICATION_PERMISSION_STATUS"
 
@@ -42,6 +42,7 @@ object PreferencesKey {
     const val NOTIFICATION_CONTENT_ICON = "icon"
     const val NOTIFICATION_CONTENT_BUTTONS = "buttons"
     const val NOTIFICATION_INITIAL_ROUTE = "initialRoute"
+    const val SMALL_ICON_TEXT = "smalliconText"
 
     // task options
     const val FOREGROUND_TASK_OPTIONS_PREFS = prefix + "FOREGROUND_TASK_OPTIONS"

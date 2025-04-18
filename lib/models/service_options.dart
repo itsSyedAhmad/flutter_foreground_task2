@@ -67,6 +67,7 @@ class ServiceUpdateOptions {
     required this.foregroundTaskOptions,
     required this.notificationContentTitle,
     required this.notificationContentText,
+    required this.smalliconText,
     this.notificationIcon,
     this.notificationButtons,
     this.notificationInitialRoute,
@@ -76,6 +77,7 @@ class ServiceUpdateOptions {
   final ForegroundTaskOptions? foregroundTaskOptions;
   final String? notificationContentTitle;
   final String? notificationContentText;
+  final String? smalliconText;
   final NotificationIcon? notificationIcon;
   final List<NotificationButton>? notificationButtons;
   final String? notificationInitialRoute;
@@ -85,6 +87,7 @@ class ServiceUpdateOptions {
     final Map<String, dynamic> json = {
       'notificationContentTitle': notificationContentTitle,
       'notificationContentText': notificationContentText,
+      'smalliconText':smalliconText,
       'icon': notificationIcon?.toJson(),
       'buttons': notificationButtons?.map((e) => e.toJson()).toList(),
       'initialRoute': notificationInitialRoute,

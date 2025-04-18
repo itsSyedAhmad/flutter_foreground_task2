@@ -19,6 +19,7 @@ data class NotificationOptions(
 ) {
     companion object {
         fun getData(context: Context): NotificationOptions {
+            //
             val prefs = context.getSharedPreferences(
                 PrefsKey.NOTIFICATION_OPTIONS_PREFS, Context.MODE_PRIVATE)
 

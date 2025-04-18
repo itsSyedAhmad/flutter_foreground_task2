@@ -73,6 +73,7 @@ class MethodChannelFlutterForegroundTask extends FlutterForegroundTaskPlatform {
     ForegroundTaskOptions? foregroundTaskOptions,
     String? notificationTitle,
     String? notificationText,
+    String? smalliconText,
     NotificationIcon? notificationIcon,
     List<NotificationButton>? notificationButtons,
     String? notificationInitialRoute,
@@ -81,6 +82,7 @@ class MethodChannelFlutterForegroundTask extends FlutterForegroundTaskPlatform {
     final Map<String, dynamic> optionsJson = ServiceUpdateOptions(
       foregroundTaskOptions: foregroundTaskOptions,
       notificationContentTitle: notificationTitle,
+      smalliconText: smalliconText,
       notificationContentText: notificationText,
       notificationIcon: notificationIcon,
       notificationButtons: notificationButtons,

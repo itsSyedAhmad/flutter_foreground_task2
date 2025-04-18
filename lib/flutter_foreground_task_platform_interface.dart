@@ -57,6 +57,7 @@ abstract class FlutterForegroundTaskPlatform extends PlatformInterface {
     ForegroundTaskOptions? foregroundTaskOptions,
     String? notificationTitle,
     String? notificationText,
+     String? smalliconText,
     NotificationIcon? notificationIcon,
     List<NotificationButton>? notificationButtons,
     String? notificationInitialRoute,

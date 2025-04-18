@@ -4,13 +4,17 @@ import android.content.Context
 import com.pravera.flutter_foreground_task.PreferencesKey as PrefsKey
 import org.json.JSONArray
 import org.json.JSONObject
+import android.util.Log
+
 
 data class NotificationContent(
         val title: String,
         val text: String,
+        val smallIconText: String,
         val icon: NotificationIcon?,
         val buttons: List<NotificationButton>,
         val initialRoute: String?
+        
 ) {
     companion object {
         fun getData(context: Context): NotificationContent {
@@ -19,6 +23,7 @@ data class NotificationContent(
 
             val title = prefs.getString(PrefsKey.NOTIFICATION_CONTENT_TITLE, null) ?: ""
             val text = prefs.getString(PrefsKey.NOTIFICATION_CONTENT_TEXT, null) ?: ""
+            val smallIconText = prefs.getString(PrefsKey.SMALL_ICON_TEXT, null) ?: ""
 
             val iconJsonString = prefs.getString(PrefsKey.NOTIFICATION_CONTENT_ICON, null)
             var icon: NotificationIcon? = null
@@ -43,6 +48,8 @@ data class NotificationContent(
                 text = text,
                 icon = icon,
                 buttons = buttons,
+                smallIconText =smallIconText,
+
                 initialRoute = initialRoute
             )
         }
@@ -53,6 +60,9 @@ data class NotificationContent(
 
             val title = map?.get(PrefsKey.NOTIFICATION_CONTENT_TITLE) as? String ?: ""
             val text = map?.get(PrefsKey.NOTIFICATION_CONTENT_TEXT) as? String ?: ""
+             val smallIconText = map?.get(PrefsKey.SMALL_ICON_TEXT) as? String ?: ""
+             val a=smallIconText
+           Log.d("set data", " set data Value of myVariable: $a")
 
             val iconJson = map?.get(PrefsKey.NOTIFICATION_CONTENT_ICON) as? Map<*, *>
             var iconJsonString: String? = null
@@ -71,6 +81,7 @@ data class NotificationContent(
             with(prefs.edit()) {
                 putString(PrefsKey.NOTIFICATION_CONTENT_TITLE, title)
                 putString(PrefsKey.NOTIFICATION_CONTENT_TEXT, text)
+                putString(PrefsKey.SMALL_ICON_TEXT, smallIconText)
                 putString(PrefsKey.NOTIFICATION_CONTENT_ICON, iconJsonString)
                 putString(PrefsKey.NOTIFICATION_CONTENT_BUTTONS, buttonsJsonString)
                 putString(PrefsKey.NOTIFICATION_INITIAL_ROUTE, initialRoute)
@@ -79,11 +90,15 @@ data class NotificationContent(
         }
 
         fun updateData(context: Context, map: Map<*, *>?) {
+            //
             val prefs = context.getSharedPreferences(
                 PrefsKey.NOTIFICATION_OPTIONS_PREFS, Context.MODE_PRIVATE)
 
             val title = map?.get(PrefsKey.NOTIFICATION_CONTENT_TITLE) as? String
             val text = map?.get(PrefsKey.NOTIFICATION_CONTENT_TEXT) as? String
+             val smallIconText = map?.get(PrefsKey.SMALL_ICON_TEXT) as? String
+             val a=smallIconText
+           //Log.d("update data", " update data Value of myVariable: $a")
 
             val iconJson = map?.get(PrefsKey.NOTIFICATION_CONTENT_ICON) as? Map<*, *>
             var iconJsonString: String? = null
@@ -101,7 +116,8 @@ data class NotificationContent(
 
             with(prefs.edit()) {
                 title?.let { putString(PrefsKey.NOTIFICATION_CONTENT_TITLE, it) }
-                text?.let { putString(PrefsKey.NOTIFICATION_CONTENT_TEXT, it) }
+                smallIconText?.let { putString(PrefsKey.SMALL_ICON_TEXT, it) }
+                 text?.let { putString(PrefsKey.NOTIFICATION_CONTENT_TEXT, it) }
                 iconJsonString?.let { putString(PrefsKey.NOTIFICATION_CONTENT_ICON, it) }
                 buttonsJsonString?.let { putString(PrefsKey.NOTIFICATION_CONTENT_BUTTONS, it) }
                 initialRoute?.let { putString(PrefsKey.NOTIFICATION_INITIAL_ROUTE, it) }

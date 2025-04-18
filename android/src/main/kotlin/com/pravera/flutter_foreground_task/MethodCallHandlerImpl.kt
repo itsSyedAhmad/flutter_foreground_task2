@@ -66,6 +66,7 @@ class MethodCallHandlerImpl(private val context: Context, private val provider: 
                 }
 
                 "updateService" -> {
+                    //
                     provider.getForegroundServiceManager().update(context, args)
                     result.success(true)
                 }
