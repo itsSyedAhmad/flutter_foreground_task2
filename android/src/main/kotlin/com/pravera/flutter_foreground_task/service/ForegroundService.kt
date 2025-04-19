@@ -354,12 +354,7 @@ class ForegroundService : Service() {
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        //     val a=notificationContent.smallIconText
-        //   Log.d("YourTag", "Value of myVariable: $a")
-        //    Log.d(" native here1" , " native here1")
-            //val parts = speed.split(" ")
-   // val numberText = parts[0]
-   // val unitText = if (parts.size > 1) parts[1] else "KB/s"
+        
             val iconBitmap = createBitmapWithSpeedText(notificationContent.smallIconText,0f)
        val icon = Icon.createWithBitmap(iconBitmap)
             val builder = Notification.Builder(this, notificationOptions.channelId)
@@ -391,6 +386,8 @@ class ForegroundService : Service() {
             return builder.build()
         } else {
             Log.d(" native here2", "native here2")
+            val iconBitmap = createBitmapWithSpeedText(notificationContent.smallIconText,0f)
+            val icon = Icon.createWithBitmap(iconBitmap)
             val builder = NotificationCompat.Builder(this, notificationOptions.channelId)
             builder.setOngoing(true)
             builder.setShowWhen(notificationOptions.showWhen)
@@ -401,6 +398,7 @@ class ForegroundService : Service() {
             builder.setStyle(NotificationCompat.BigTextStyle().bigText(notificationContent.text))
             builder.setVisibility(notificationOptions.visibility)
             builder.setOnlyAlertOnce(notificationOptions.onlyAlertOnce)
+            builder.setSmallIcon(icon)
             if (iconBackgroundColor != null) {
                 builder.color = iconBackgroundColor
             }
