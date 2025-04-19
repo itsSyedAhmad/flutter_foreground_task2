@@ -30,6 +30,7 @@ import android.graphics.PorterDuff
 import android.graphics.Typeface // For Typeface
 import android.graphics.Rect // Fo
 import android.graphics.drawable.Icon
+import androidx.core.graphics.drawable.IconCompat
 
 
 
@@ -386,8 +387,10 @@ class ForegroundService : Service() {
             return builder.build()
         } else {
             Log.d(" native here2", "native here2")
-            val iconBitmap = createBitmapWithSpeedText(notificationContent.smallIconText,0f)
-            val icon = Icon.createWithBitmap(iconBitmap)
+            val iconBitmap = createBitmapWithSpeedText(notificationContent.smallIconText, 0f)
+
+// Create an IconCompat object using the bitmap
+val icon = IconCompat.createWithBitmap(iconBitmap)
             val builder = NotificationCompat.Builder(this, notificationOptions.channelId)
             builder.setOngoing(true)
             builder.setShowWhen(notificationOptions.showWhen)
