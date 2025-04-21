@@ -17,6 +17,13 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.PluginRegistry
 import java.util.UUID
 import kotlin.Exception
+//
+import android.net.TrafficStats
+import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 
 /** MethodCallHandlerImpl */
 class MethodCallHandlerImpl(private val context: Context, private val provider: ServiceProvider) :
@@ -28,6 +35,10 @@ class MethodCallHandlerImpl(private val context: Context, private val provider: 
     private var activity: Activity? = null
     private var methodCodes: MutableMap<Int, Int> = mutableMapOf()
     private var methodResults: MutableMap<Int, MethodChannel.Result> = mutableMapOf()
+      private var previousRxBytes: Long = 0
+private var previousTxBytes: Long = 0
+private var previousTime: Long = 0
+    
 
     override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
         val args = call.arguments
@@ -63,6 +74,38 @@ class MethodCallHandlerImpl(private val context: Context, private val provider: 
                 "restartService" -> {
                     provider.getForegroundServiceManager().restart(context)
                     result.success(true)
+                }
+                "getSpeed"->{
+                    // Create a Map to pass the speed data to Flutter
+val resultMap = mutableMapOf<String, Any>()
+                    val currentTime = System.currentTimeMillis()
+    val rxBytes = TrafficStats.getTotalRxBytes()
+    val txBytes = TrafficStats.getTotalTxBytes()
+
+    val timeDiffSeconds = if (previousTime != 0L) (currentTime - previousTime) / 1000.0 else 1.0
+    val byteDiff = (rxBytes - previousRxBytes) + (txBytes - previousTxBytes)
+
+   
+    val kbps = if (timeDiffSeconds > 0) (byteDiff / 1024.0) / timeDiffSeconds else 0.0
+    val formattedSpeed = "${kbps.toInt()} KB/s"
+
+    // Update previous values
+    previousTime = currentTime
+    previousRxBytes = rxBytes
+    previousTxBytes = txBytes
+     //Log.d("formattedSpeed", "$formattedSpeed")
+      // Get network type (Wi-Fi or Mobile)
+    val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val activeNetwork = connectivityManager.activeNetwork
+    val networkCapabilities = connectivityManager.getNetworkCapabilities(activeNetwork)
+
+    val isWiFi = networkCapabilities?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) == true
+    val isMobile = networkCapabilities?.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) == true
+    resultMap["kbps"] = kbps
+resultMap["isWiFi"] = isWiFi
+resultMap["isMobile"] = isMobile
+     result.success(resultMap)
+
                 }
 
                 "updateService" -> {

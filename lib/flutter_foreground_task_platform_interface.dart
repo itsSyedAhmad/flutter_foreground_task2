@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'flutter_foreground_task_method_channel.dart';
@@ -51,6 +52,13 @@ abstract class FlutterForegroundTaskPlatform extends PlatformInterface {
 
   Future<void> restartService() {
     throw UnimplementedError('restartService() has not been implemented.');
+  }
+  Future<Map<Object?, Object?>> getSpeed() async {
+    final MethodChannel mMDChannel =
+      const MethodChannel('flutter_foreground_task/methods');
+    var speed=   await mMDChannel.invokeMethod('getSpeed') ;
+    //print("this is native side 1 $speed");
+    return speed;
   }
 
   Future<void> updateService({

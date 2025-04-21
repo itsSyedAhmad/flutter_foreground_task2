@@ -153,6 +153,23 @@ class FlutterForegroundTask {
       return ServiceRequestFailure(error: error);
     }
   }
+  //Gets the current network speed in Kbps (from Android native).
+  static Future<Map<Object?, Object?>>getSpeed() async {
+    
+    try {
+      final result = await _platform.getSpeed();
+     
+    return {
+      'kbps': result['kbps'],
+      'isWiFi': result['isWiFi'],
+      'isMobile': result['isMobile'],
+    };
+    } catch (e) {
+      debugPrint('Error in getSpeed: $e');
+      return {};
+    }
+  }
+
 
   /// Update the foreground service.
   static Future<ServiceRequestResult> updateService({

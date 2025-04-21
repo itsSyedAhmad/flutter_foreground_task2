@@ -37,6 +37,8 @@ import androidx.core.graphics.drawable.IconCompat
 
 
 
+
+
 /**
  * A service class for implementing foreground service.
  *
@@ -52,6 +54,9 @@ class ForegroundService : Service() {
         private const val ACTION_NOTIFICATION_BUTTON_PRESSED = "onNotificationButtonPressed"
         private const val ACTION_RECEIVE_DATA = "onReceiveData"
         private const val INTENT_DATA_NAME = "intentData"
+        private var previousRxBytes: Long = 0
+private var previousTxBytes: Long = 0
+private var previousTime: Long = 0
 
         private val _isRunningServiceState = MutableStateFlow(false)
         val isRunningServiceState = _isRunningServiceState.asStateFlow()
@@ -355,6 +360,8 @@ class ForegroundService : Service() {
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            
+    
         
             val iconBitmap = createBitmapWithSpeedText(notificationContent.smallIconText,0f)
        val icon = Icon.createWithBitmap(iconBitmap)
@@ -457,12 +464,12 @@ val icon = IconCompat.createWithBitmap(iconBitmap)
         }
     }
     //
-    private fun createBitmapWithSpeedText(speed: String, verticalOffset: Float): Bitmap {
+   private fun createBitmapWithSpeedText(speed: String, verticalOffset: Float): Bitmap {
     val size = 196
     val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
     val canvas = Canvas(bitmap)
     
-     canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
+    canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
 
     val paint = Paint().apply {
         color = Color.WHITE
@@ -471,7 +478,7 @@ val icon = IconCompat.createWithBitmap(iconBitmap)
         textAlign = Paint.Align.CENTER
     }
 
-   val parts = speed.split(" ")
+    val parts = speed.split(" ")
     val numberText = parts[0]
     val unitText = if (parts.size > 1) parts[1] else "KB/s"
 
@@ -527,11 +534,11 @@ val icon = IconCompat.createWithBitmap(iconBitmap)
     // Adjust baseline calculation to align with visual top
     val numberBaseline = size / 2f - numberBounds.height() / 2f - numberBounds.top + numberBounds.top / 4f // Adjust this value
 
-    // Adjust vertical offset to minimize padding
-    val adjustedVerticalOffset = verticalOffset - 2f // Adjust this value
+    // Adjust vertical offset to lift the unit text and minimize clipping
+    val adjustedVerticalOffset = verticalOffset - 10f // Increase this value for lifting (e.g., -10f)
 
     val numberY = numberBaseline + adjustedVerticalOffset
-    val unitY = numberBaseline + numberBounds.height() + adjustedVerticalOffset
+    val unitY = numberBaseline + numberBounds.height() + adjustedVerticalOffset - 10f // Lift the unit text further
 
     // Draw text
     paint.textSize = numberTextSize
