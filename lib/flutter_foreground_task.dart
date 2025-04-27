@@ -158,8 +158,12 @@ class FlutterForegroundTask {
     
     try {
       final result = await _platform.getSpeed();
-     
+      print("rxKBps: ${result['rxKBps']}");
+      print("txKBps: ${result['txKBps']}");
+
     return {
+      'rxKBps': result['rxKBps'],
+      'txKBps': result['txKBps'],
       'kbps': result['kbps'],
       'isWiFi': result['isWiFi'],
       'isMobile': result['isMobile'],

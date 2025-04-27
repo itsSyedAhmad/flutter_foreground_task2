@@ -81,12 +81,17 @@ val resultMap = mutableMapOf<String, Any>()
                     val currentTime = System.currentTimeMillis()
     val rxBytes = TrafficStats.getTotalRxBytes()
     val txBytes = TrafficStats.getTotalTxBytes()
+    
 
     val timeDiffSeconds = if (previousTime != 0L) (currentTime - previousTime) / 1000.0 else 1.0
-    val byteDiff = (rxBytes - previousRxBytes) + (txBytes - previousTxBytes)
+    val rxByteDiff = rxBytes - previousRxBytes
+    val txByteDiff = txBytes - previousTxBytes
+    val byteDiff = rxByteDiff + txByteDiff
 
    
     val kbps = if (timeDiffSeconds > 0) (byteDiff / 1024.0) / timeDiffSeconds else 0.0
+    val rxKBps = if (timeDiffSeconds > 0) (rxByteDiff / 1024.0) / timeDiffSeconds else 0.0
+    val txKBps = if (timeDiffSeconds > 0) (txByteDiff / 1024.0) / timeDiffSeconds else 0.0
     val formattedSpeed = "${kbps.toInt()} KB/s"
 
     // Update previous values
@@ -101,6 +106,8 @@ val resultMap = mutableMapOf<String, Any>()
 
     val isWiFi = networkCapabilities?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) == true
     val isMobile = networkCapabilities?.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) == true
+    resultMap["rxKBps"] = rxKBps 
+    resultMap["txKBps"] = txKBps
     resultMap["kbps"] = kbps
 resultMap["isWiFi"] = isWiFi
 resultMap["isMobile"] = isMobile
